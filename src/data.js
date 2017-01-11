@@ -1,7 +1,10 @@
 export default [
     {
+      multiImage: true,
       title: 'loafers',
-      imageUrl: 'http://assets.myntassets.com/v1438784443/Lookgood/Trends/Final/Trends-loafers.jpg',
+      image1: 'http://assets.myntassets.com/assets/images/lookbook/2017/1/11/11484140384831-Armani_1.jpg',
+      image2: 'http://assets.myntassets.com/assets/images/lookbook/2017/1/11/11484140384844-Armani_2.jpg',
+      image3: 'http://assets.myntassets.com/assets/images/lookbook/2017/1/11/11484140384860-Armani_3.jpg',
       url: 'http://www.myntra.com'
     },
     {

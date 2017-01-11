@@ -7,11 +7,9 @@ class HexaCarousel extends Component {
 		this.state = {
 			doneAnimating: true,
 			rotationY: 0,
-			index: 0
+			index: 0,
+			height: 400
 		}
-	}
-	componentDidMount() {
-		console.log(this.props.data);
 	}
 	toRadians (angle) {
 	  return angle * (Math.PI / 180);
@@ -23,7 +21,7 @@ class HexaCarousel extends Component {
 			console.log('current index', Math.abs(this.state.rotationY / angelIncrement));
 			this.setState({
 				doneAnimating: false,
-				index: this.state.index + 1
+				index: (this.state.index === n - 1) ? 0 : this.state.index + 1
 			});
 			TweenLite.to(this.refs.carousel, 0.5, { rotationY: '-=' + angelIncrement, onComplete: ()=>{
 				this.setState({
@@ -45,7 +43,7 @@ class HexaCarousel extends Component {
 				wrapper: {
 					position: 'absolute',
 					maxWidth: 250,
-					height: 360,
+					height: this.state.height,
 					zIndex: (i <= n / 2) ? topZIndex-- : topZIndex++,
 					transform: 'rotateY('+ i * angelIncrement +'deg) translateZ('+translateZ+'px)',
 					transition: 'all 1s'
@@ -60,7 +58,7 @@ class HexaCarousel extends Component {
 				css.wrapper = {
 					position: 'absolute',
 					maxWidth: 250,
-					height: 360,
+					height: this.state.height,
 					zIndex: (i <= n / 2) ? topZIndex-- : topZIndex++,
 					transform: 'rotateY('+ i * angelIncrement +'deg) translateZ('+translateZ+'px)',
 					opacity: 0.5,
@@ -68,11 +66,24 @@ class HexaCarousel extends Component {
 					transition: 'all 1s'
 				}
 			}
-			return (
-				<div style={css.wrapper} key={i}>
-					<img style={css.image} src={item.imageUrl} alt={item.title} />
-				</div>
-			);
+
+			if (item.multiImage) {
+				return (
+					<div style={css.wrapper} key={i}>
+						<div>
+							<img style={{width:'50%',height:'auto',display:'block',float: 'left'}} src={item.image1} alt={item.title} />
+							<img style={{width:'50%',height:'auto',display:'block',float: 'left'}} src={item.image2} alt={item.title} />
+						</div>
+						<img style={css.image} src={item.image3} alt={item.title} />
+					</div>
+				);
+			} else {
+				return (
+					<div style={css.wrapper} key={i}>
+						<img style={css.image} src={item.imageUrl} alt={item.title} />
+					</div>
+				);
+			}
 		});
 
 		return items;
@@ -89,13 +100,13 @@ class HexaCarousel extends Component {
 				position: 'relative',
 				perspective: translateZ * 13,
 				maxWidth: 250,
-				height: 360,
+				height: this.state.height,
 				margin: '10% auto',
 			},
 			carousel: {
 			    position: 'absolute',
 				width: '100%',
-				height: 360,
+				height: this.state.height,
 				transformStyle: 'preserve-3d',
 				// transform: 'rotateY(60deg)'
 			}
